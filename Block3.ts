@@ -1,107 +1,100 @@
 
-// class Nodes {
-//     value ;
-//     left: null | Nodes;
-//     right: null | Nodes;
-//     root: null | Nodes;
-//   constructor(value: number){
-//       this.value = value;
-//       this.left = null;
-//       this.right = null;
-//       this.root = null;
-//   }
+class Nodes<T> {
+    value: T | null;
+    left: Nodes<T> | null;
+    right: Nodes<T> | null;
 
-//   insertValue(value: number){
-//       let newNode = new Nodes(value);
-//       if (!this.root){
-//           this.root = newNode;
+    constructor() {
+        this.value = null;
+        this.left = null;
+        this.right = null;
+    }
 
-//       }else{
-//           this.insertNewNode(this.root, newNode);
+    insert(value: T, node?: Nodes<T>): boolean {
+        let self: Nodes<T> = node ?? this;
 
-//       }
-//   }
-//   insertNewNode(node: Nodes , newNode: Nodes){
-//       if(newNode.value < node.value){
-//           if(node.left === null){
-//               node.left = newNode;
-//           }else{
-//               this.insertNewNode(node.left, newNode);
-//           }
-//       }else{
-//           if(node.right === null){
-//               node.right = newNode;
-//           }else{
-//               this.insertNewNode(node.right, newNode);
-//           }
-//       }
-//   }
+        if (self.value === null) {
+            self.value = value;
+            return true;
+        }
 
-//   searchValue(node: (Nodes | null), value: number): (Nodes | null) {
-//       if(node === null){
-//           return null;
-//       }else if(value < node.value){
-//           return this.searchValue(node.left, value);
-//       }else if(value > node.value){
-//           return this.searchValue(node.right, value);
-//       }else{
-//           console.log(node);
-//           return node;
-//       }
-//   }
+        if (self.value > value) {
+            if (self.right === null) {
+                self.right = new Nodes<T>();
+            }
+            return this.insert(value, self.right);
+        }
 
-//   minNode(node: Nodes): Nodes{
-//       if(node.left === null){
-//           return node;
-//       }else{
-//           return this.minNode(node.left);
-//       }
+        if (self.value < value) {
+            if (self.left === null) {
+                self.left = new Nodes<T>();
+            }
+            return this.insert(value, self.left);
+        }
 
-//   }
+        return false;
+    }
 
-//   remove(value: number){
-//   this.root = this.removeNode(this.root, value);
-//   }
+    search(value: T, node?: Nodes<T>): Nodes<T> | null {
+        let self: Nodes<T> = node ?? this;
 
-//   removeNode(node: (Nodes | null), value: number){
+        if (self.value === null) {
+            return null;
+        }
 
-//       if(node === null){
-//           return null;
-//       }else if(value < node.value){
-//           node.left = this.removeNode(node.left, value);
-//           return node;
-//       }else if(value > node.value){
-//           node.right = this.removeNode(node.right, value);
-//           return node;
-//       }else if(node.left === null && node.right === null){
-//           node = null;
-//           return node;
-//       }else{
-//           if(node.left === null){
-//               node = node.right;
-//               return node;
-//           }else if(node.right === null){
-//               node = node.left;
-//               return node;
-//           }
+        if (self.value === value) {
+            return self;
+        }
 
-//           let newNode = this.minNode(node.right);
-//           node.value = newNode.value;
-//           node.right = this.removeNode(node.right, newNode.value);
-//           return node;
+        if (self.value > value && self.right !== null) {
+            return this.search(value, self.right);
+        }
 
-//       }
-//   }
-// }
-// const myFirstTree = new Nodes();
+        if (self.value < value && self.left !== null) {
+            return this.search(value, self.left);
+        }
 
-// myFirstTree.insertValue(8);
-// myFirstTree.insertValue(7);
-// myFirstTree.insertValue(9);
-// myFirstTree.insertValue(20);
-// myFirstTree.insertValue(5);
-// myFirstTree.insertValue(11);
-// myFirstTree.insertValue(2);
-// myFirstTree.insertValue(4);
-// myFirstTree.insertValue(17);
-// myFirstTree.insertValue(13);
+        return null;
+    }
+
+    searchMin(node: Nodes<T>): Nodes<T> {
+        if (node.left === null) {
+            return node;
+        } else {
+            return this.searchMin(node.left);
+        }
+
+    }
+
+    remove(value: T, node?: Nodes<T>): Nodes<T> | null {
+        let self: Nodes<T> = node ?? this;
+
+        if (self.value === null) {
+            return null;
+        } else if (self.value < value && self.left !== null) {
+            self.left = this.remove(value, self.left);
+            return self;
+        } else if (self.value > value && self.right !== null) {
+            self.right = this.remove(value, self.right);
+            return self;
+        } else if (self.left === null && self.right === null) {
+            return self;
+        } else {
+            if (self.left === null && self.right !== null) {
+                self = self.right;
+                return self;
+            } else if (self.right === null && self.left !== null) {
+                self = self.left;
+                return self;
+            }
+            if (self.right !== null) {
+                let newNode = this.searchMin(self.right);
+                self.value = newNode.value;
+                if (newNode.value !== null)
+                    self.right = this.remove(newNode.value, self.right);
+                return self;
+            }
+            return self;
+        }
+    }
+}

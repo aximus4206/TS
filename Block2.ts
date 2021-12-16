@@ -74,7 +74,7 @@
 // Object.defineProperty(Array.prototype, 'myOwnReduce', {
 //     value: function (funClbck: Function, result: number) {
 //         let index = 0;
-//         if (result == undefined) {
+//         if (result === undefined) {
 //             index = 1;
 //             result = this[0];
 //         }

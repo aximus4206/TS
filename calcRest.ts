@@ -506,7 +506,4 @@ class Restoraunt {
         return departmentWithoutPosition;
     };
 };
-
-
-
 const rest = new Restoraunt(workersArr);

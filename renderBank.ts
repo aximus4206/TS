@@ -192,34 +192,43 @@ class BankView {
         let regularDate = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
 
         this.data.unshift({
-            name: newClient.get('name') || 'Name',
-            surname: newClient.get('surname') || 'Surname',
-            isActive: newClient.get('isActive') || false,
+            name: String(newClient.get('name')) || 'Name',
+            surname: String(newClient.get('surname')) || 'Surname',
+            isActive: Boolean(newClient.get('isActive')) || false,
             debit: {
-                curentBalance: newClient.get('debitBalance') || 'debitBalance',
-                currency: newClient.get('currency') || 'UAH',
+                curentBalance: Number(newClient.get('debitBalance')) || 0,
+                currency: String(newClient.get('currency')) || 'UAH',
+                active: Boolean(newClient.get('activeUser')) || false,
+                activetedDate: String(newClient.get('activetedData')) || 'Activeted Date',
+                expiredDate: String(newClient.get('expiredData')) || 'Expired Date',
+
             },
             credit: {
                 ownBalance: {
-                    ownBalance: newClient.get('ownBalance') || 'ownBalance',
-                    activetedDate: newClient.get('activetedDate') || 'Activeted Date',
-                    expiredDate: newClient.get('expiredDate') || 'Expired Date',
-                    currency: newClient.get('currency') || 'UAH',
+                    ownBalance: Number(newClient.get('ownBalance')) || 0,
+                    activetedDate: String(newClient.get('activetedDate')) || 'Activeted Date',
+                    expiredDate: String(newClient.get('expiredDate')) || 'Expired Date',
+                    currency: String(newClient.get('currency')) || 'UAH',
+                    active: Boolean(newClient.get('activeUser')) || false,
                 },
                 creditBalance: {
-                    creditBalance: newClient.get('creditBalance') || 'creditBalance',
-                    creditLimit: newClient.get('creditLimit') || 'creditLimit',
-                    currency: newClient.get('currency') || 'UAH',
+                    creditBalance: Number(newClient.get('creditBalance')) || 0,
+                    creditLimit: Number(newClient.get('creditLimit')) || 0,
+                    currency: String(newClient.get('currency')) || 'UAH',
+                    active: Boolean(newClient.get('activeUser')) || false,
+                    activetedDate: String(newClient.get('activetedData')) || 'Activeted Data',
+                    expiredDate: String(newClient.get('expiredData')) || 'Expired Data',
+
                 },
             },
         });
-        if (this.data[0].name.match(regularExpName) && this.data[0].name !== 0 &&
-            this.data[0].surname.match(regularExpName) && this.data[0].surname !== 0 &&
-            regularExpBal.test(this.data[0].credit.ownBalance.ownBalance) && this.data[0].credit.ownBalance.ownBalance !== 0 &&
-            this.data[0].credit.ownBalance.activetedDate.match(regularDate) && this.data[0].credit.ownBalance.activetedDate !== 0 &&
-            this.data[0].credit.ownBalance.expiredDate.match(regularDate) && this.data[0].credit.ownBalance.expiredDate !== 0 &&
-            regularExpBal.test(this.data[0].credit.creditBalance.creditBalance) && this.data[0].credit.creditBalance.creditBalance !== 0 &&
-            regularExpBal.test(this.data[0].credit.creditBalance.creditLimit) && this.data[0].credit.creditBalance.creditLimit !== 0) {
+        if (this.data[0].name.match(regularExpName) && Number(this.data[0].name) !== 0 &&
+            this.data[0].surname.match(regularExpName) && Number(this.data[0].surname) !== 0 &&
+            regularExpBal.test(String(this.data[0].credit.ownBalance.ownBalance)) && this.data[0].credit.ownBalance.ownBalance !== 0 &&
+            this.data[0].credit.ownBalance.activetedDate.match(regularDate) && Number(this.data[0].credit.ownBalance.activetedDate) !== 0 &&
+            this.data[0].credit.ownBalance.expiredDate.match(regularDate) && Number(this.data[0].credit.ownBalance.expiredDate) !== 0 &&
+            regularExpBal.test(String(this.data[0].credit.creditBalance.creditBalance)) && this.data[0].credit.creditBalance.creditBalance !== 0 &&
+            regularExpBal.test(String(this.data[0].credit.creditBalance.creditLimit)) && this.data[0].credit.creditBalance.creditLimit !== 0) {
             this.showClient();
         } else {
             alert('Typed incorrect value, or some of the fields are empty!');
@@ -253,22 +262,22 @@ class BankView {
         let regularExpBal = /^[\d]{1,12}$/;
         let regularDate = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
 
-        this.data[index].name = workerModify.get('name') || this.data[index].name;
-        this.data[index].surname = workerModify.get('surname') || this.data[index].surname;
-        this.data[index].credit.ownBalance.ownBalance = workerModify.get('balance') || this.data[index].credit.ownBalance.ownBalance;
-        this.data[index].credit.ownBalance.activetedDate = workerModify.get('activetedDate') || this.data[index].credit.ownBalance.activetedDate;
-        this.data[index].credit.ownBalance.expiredDate = workerModify.get('expiredDate') || this.data[index].credit.ownBalance.expiredDate;
-        this.data[index].credit.creditBalance.creditBalance = workerModify.get('creditBalance') || this.data[index].credit.creditBalance.creditBalance;
-        this.data[index].credit.creditBalance.creditLimit = workerModify.get('creditLimit') || this.data[index].credit.creditBalance.creditLimit;
-        this.data[index].isActive = workerModify.get('isActive') || this.data[index].isActive;
+        this.data[index].name = String(workerModify.get('name')) || this.data[index].name;
+        this.data[index].surname = String(workerModify.get('surname')) || this.data[index].surname;
+        this.data[index].credit.ownBalance.ownBalance = Number(workerModify.get('balance')) || this.data[index].credit.ownBalance.ownBalance;
+        this.data[index].credit.ownBalance.activetedDate = String(workerModify.get('activetedDate')) || this.data[index].credit.ownBalance.activetedDate;
+        this.data[index].credit.ownBalance.expiredDate = String(workerModify.get('expiredDate')) || this.data[index].credit.ownBalance.expiredDate;
+        this.data[index].credit.creditBalance.creditBalance = Number(workerModify.get('creditBalance')) || this.data[index].credit.creditBalance.creditBalance;
+        this.data[index].credit.creditBalance.creditLimit = Number(workerModify.get('creditLimit')) || this.data[index].credit.creditBalance.creditLimit;
+        this.data[index].isActive = Boolean(workerModify.get('isActive')) || this.data[index].isActive;
 
-        if (this.data[index].name.match(regularExpName) && this.data[index].name !== 0 &&
-            this.data[index].surname.match(regularExpName) && this.data[index].surname !== 0 &&
-            regularExpBal.test(this.data[index].credit.ownBalance.ownBalance) && this.data[index].credit.ownBalance.ownBalance !== 0 &&
-            this.data[index].credit.ownBalance.activetedDate.match(regularDate) && this.data[index].credit.ownBalance.activetedDate !== 0 &&
-            this.data[index].credit.ownBalance.expiredDate.match(regularDate) && this.data[index].credit.ownBalance.expiredDate !== 0 &&
-            regularExpBal.test(this.data[index].credit.creditBalance.creditBalance) && this.data[index].credit.creditBalance.creditBalance !== 0 &&
-            regularExpBal.test(this.data[index].credit.creditBalance.creditLimit) && this.data[index].credit.creditBalance.creditLimit !== 0) {
+        if (this.data[index].name.match(regularExpName) && Number(this.data[index].name) !== 0 &&
+            this.data[index].surname.match(regularExpName) && Number(this.data[index].surname) !== 0 &&
+            regularExpBal.test(String(this.data[index].credit.ownBalance.ownBalance)) && this.data[index].credit.ownBalance.ownBalance !== 0 &&
+            this.data[index].credit.ownBalance.activetedDate.match(regularDate) && Number(this.data[index].credit.ownBalance.activetedDate) !== 0 &&
+            this.data[index].credit.ownBalance.expiredDate.match(regularDate) && Number(this.data[index].credit.ownBalance.expiredDate) !== 0 &&
+            regularExpBal.test(String(this.data[index].credit.creditBalance.creditBalance)) && this.data[index].credit.creditBalance.creditBalance !== 0 &&
+            regularExpBal.test(String(this.data[index].credit.creditBalance.creditLimit)) && this.data[index].credit.creditBalance.creditLimit !== 0) {
             this.showClient();
         } else {
             alert('Typed incorrect value, or some of the fields are empty!');

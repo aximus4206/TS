@@ -18,7 +18,7 @@
 //         }
 //         reqAnagramm(firstString, secondString, ++index, pos, counter, arr);
 //     }
-//     return arr.length == newStr1.length;
+//     return arr.length === newStr1.length;
 
 // let someNumber = 3243166532;
 
@@ -85,9 +85,9 @@
 //         let fibArr = [0, 1];
 //         if (number < 1) {
 //             return [];
-//         } else if (number == 1) {
+//         } else if (number === 1) {
 //             return [0];
-//         } else if (number == 2) {
+//         } else if (number === 2) {
 //             return fibArr;
 //         }
 //         fibArr = memo2[number] || fibArr;
@@ -140,47 +140,49 @@
 //     return memoFac;
 // }
 
-// let width = 2;
-// let height = 4;
-
-// function perimeterRect(width: number, height: number): number{
-//     let result = (width + height)*2;
-//     return result;
+// class Rectangle {
+//     height;
+//     width;
+//     constructor(height: number, width: number) {
+//         this.height = height;
+//         this.width = width;
+//     }
+//     square() {
+//         return this.width * this.height;
+//     }
+//     perimeter() {
+//         return (this.width * 2) + (this.height * 2);
+//     }
+// }
+// class Triangle {
+//     a;
+//     b;
+//     c;
+//     constructor(a: number, b: number, c: number) {
+//         this.a = a;
+//         this.b = b;
+//         this.c = c;
+//     }
+//     square() {
+//         return 1 / 2 * this.a * this.b * Math.sin((this.c * Math.PI) / 180);
+//     }
+//     perimeter() {
+//         return this.a + this.b + this.c;
+//     }
+// }
+// class Circle {
+//     radius;
+//     constructor(radius: number) {
+//         this.radius = radius;
+//     }
+//     square() {
+//         return Math.PI * Math.pow(this.radius, 2);
+//     }
+//     perimeter() {
+//         return Math.PI * 2 * this.radius;
+//     }
 // }
 
-// function squareRect(width: number, height: number): number {
-//     let result = width * height;
-//     return result;
-// }
-
-// let first = 3;
-// let second = 4;
-// let third = 5;
-
-// function trianglePer(first: number, second: number, third: number): number {
-//     let result = 0;
-//     result = first + second + third;
-//     return result;
-// }
-
-// function triangleSquare(first: number, second: number): number {
-//     let result = (second * first) / 2;
-//     return result;
-// }
-
-// let rad = 5;
-
-// function perimetrCircle(rad: number): number {
-//     let p = Math.PI;
-//     let result = 2 * p * rad;
-//     return result;
-// }
-
-// function squareCircle(rad: number): number {
-//     let p = Math.PI;
-//     let result = p * (rad * rad);
-//     return result;
-// }
 
 // let arr = [2, -3, 3, 1, 5, 0, 4, 8, 9, -9, -7, -5, 6, 12, 14, 2, 7];
 
@@ -188,7 +190,7 @@
 //     multiples = multiples || 0;
 //     index = index || 0;
 
-//     if (arr[index] % 2 == 0) {
+//     if (arr[index] % 2 === 0) {
 //         multiples += arr[index];
 //     }
 
@@ -203,7 +205,7 @@
 //     multiples = multiples || 0;
 //     index = index || 0;
 
-//     if (arr[index] % 3 == 0) {
+//     if (arr[index] % 3 === 0) {
 //         multiples += arr[index];
 //     }
 
@@ -330,7 +332,7 @@
 //     }
 //     arr.reverse();
 
-//     if (index == 0) {
+//     if (index === 0) {
 //         arr[index] *= counter;
 //         summ += arr[index];
 //         return summ;
@@ -530,25 +532,34 @@
 //     return arr;
 // }
 
-// function reqoursionDeleteRow(matrix: number[][], index: number): number[][] {
-//     index = index || 0;
-//     if (index < matrix.length) {
-//         if (matrix[index].includes(0)) {
-//             matrix.splice(index, 1);
-//             --index;
+
+// function matrixDeleteRow(matrix: number[][]) {
+//     for ( let i = 0; i < matrix.length; i++ ) {
+//         for ( let j = 0; j < matrix[i].length; j++ ) {
+//             if (matrix[i][j] == 0) {
+//                 matrix.splice(i, 1);
+//                 break;
+//             }
 //         }
-//         reqoursionDeleteRow(matrix, ++index);
 //     }
 //     return matrix;
 // }
 
-// function deleteCol(matrix: number[][]): number[][] {
-//     for (let i = 0; i < matrix.length; i++) {
-//         for (let j = matrix[i].length - 1; j >= 0; j--) {
-//             if (matrix[i][j] === 0) {
-//                 matrix[i].splice(j, 1);
+// function reqursMatrixDeleteCol(matrix: number[][]) {
+//     let colDelete = (j: number) => {
+//         for ( let i = 0; i < matrix.length; i++ ) {
+//             matrix[i].splice(j, 1);
+//         }
+//     }
+
+//     for ( let i = 0; i < matrix.length; i++ ) {
+//         for ( let j = 0; j < matrix[i].length; j++ ) {
+//             if (matrix[i][j] == 0) {
+//                 colDelete(j);
+//                 break;
 //             }
 //         }
 //     }
+
 //     return matrix;
 // }

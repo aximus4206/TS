@@ -8,7 +8,7 @@ class RestView {
     leftCol: HTMLElement;
     rightCol: HTMLElement;
     cardItem: HTMLElement;
-    constructor(data: Iworkers[]) {
+    constructor(data: IWorkers[]) {
         this.data = data;
         this.information = document.querySelector('.information') as HTMLElement;
         this.leftCol = document.querySelector('.left-col') as HTMLElement;
@@ -81,12 +81,12 @@ class RestView {
         dismissedAmountHeader.innerHTML = '<h3>Dismissed in department:</h3>';
 
         for (let value in departmentsSalary) {
-            let result = value;
+            let result: any = value;
             departmentsSalaryInfo.innerHTML += `<p class="info"> ${department[result].id} department: ${departmentsSalary[value]} $</p>`;
         }
 
         for (let value in middleDepartmentsSalary) {
-            let result = value;
+            let result: any = value;
             middleDepartmentsSalaryInfo.innerHTML += `<p class="info"> ${department[result].id} department: ${middleDepartmentsSalary[value]} $</p>`;
         }
 
@@ -111,7 +111,7 @@ class RestView {
         }
 
         for (let value in areDismissed) {
-            let result = value;
+            let result: any = value;
             dismissedAmountInfo.innerHTML += `<p class="info"> ${department[result].id} department: ${areDismissed[value]} worker(s)</p>`;
         }
 
@@ -254,19 +254,19 @@ class RestView {
         let regularExpSal = /^[\d]{1,9}$/;
 
         this.data.unshift({
-            name: newWorker.get('name') || 'Name',
-            surname: newWorker.get('surname') || 'Surname',
-            department: Number(newWorker.get('department')) || 'Department',
-            position: newWorker.get('position') || 'Position',
-            salary: Number(newWorker.get('salary')) || 'Salary',
-            dismissed: newWorker.get('dismissed') || false,
+            name: String(newWorker.get('name')) || 'Name',
+            surname: String(newWorker.get('surname')) || 'Surname',
+            department: Number(newWorker.get('department')) || 0,
+            position: String(newWorker.get('position')) || 'Position',
+            salary: Number(newWorker.get('salary')) || 0,
+            dismissed: Boolean(newWorker.get('dismissed')) || false,
         });
         if (this.data[0].name.match(regularExpName) &&
-            this.data[0].name !== 0 && this.data[0].surname.match(regularExpName) &&
-            this.data[0].surname !== 0 && regularExpDep.test(this.data[0].department) &&
+            Number(this.data[0].name) !== 0 && this.data[0].surname.match(regularExpName) &&
+            Number(this.data[0].surname) !== 0 && regularExpDep.test(String(this.data[0].department)) &&
             this.data[0].department !== 0 &&
-            this.data[0].position.match(regularExpName) && this.data[0].position !== 0 &&
-            regularExpSal.test(this.data[0].salary) && this.data[0].salary !== 0) {
+            this.data[0].position.match(regularExpName) && Number(this.data[0].position) !== 0 &&
+            regularExpSal.test(String(this.data[0].salary)) && this.data[0].salary !== 0) {
             this.showWorker();
         } else {
             alert('Typed incorrect value, or some of the fields are empty!');
@@ -302,18 +302,18 @@ class RestView {
         let regularExpDep = /^[\d]{1}$/;
         let regularExpSal = /^[\d]{1,9}$/;
 
-        this.data[index].name = workerModify.get('name') || this.data[index].name;
-        this.data[index].surname = workerModify.get('surname') || this.data[index].surname;
-        this.data[index].department = workerModify.get('department') || this.data[index].department;
-        this.data[index].position = workerModify.get('position') || this.data[index].position;
-        this.data[index].salary = workerModify.get('salary') || this.data[index].salary;
-        this.data[index].dismissed = workerModify.get('dismissed') || this.data[index].dismissed;
+        this.data[index].name = String(workerModify.get('name')) || this.data[index].name;
+        this.data[index].surname = String(workerModify.get('surname')) || this.data[index].surname;
+        this.data[index].department = Number(workerModify.get('department')) || this.data[index].department;
+        this.data[index].position = String(workerModify.get('position')) || this.data[index].position;
+        this.data[index].salary = Number(workerModify.get('salary')) || this.data[index].salary;
+        this.data[index].dismissed = Boolean(workerModify.get('dismissed')) || this.data[index].dismissed;
 
-        if (this.data[index].name.match(regularExpName) && this.data[index].name !== 0 &&
-            this.data[index].surname.match(regularExpName) && this.data[index].surname !== 0 &&
-            regularExpDep.test(this.data[index].department) && this.data[index].department !== 0 &&
-            this.data[index].position.match(regularExpName) && this.data[index].position !== 0 &&
-            regularExpSal.test(this.data[index].salary) && this.data[index].salary !== 0) {
+        if (this.data[index].name.match(regularExpName) && Number(this.data[index].name) !== 0 &&
+            this.data[index].surname.match(regularExpName) && Number(this.data[index].surname) !== 0 &&
+            regularExpDep.test(String(this.data[index].department)) && this.data[index].department !== 0 &&
+            this.data[index].position.match(regularExpName) && Number(this.data[index].position) !== 0 &&
+            regularExpSal.test(String(this.data[index].salary)) && this.data[index].salary !== 0) {
             this.showWorker();
         } else {
             alert('Typed incorrect value, or some of the fields are empty!');
