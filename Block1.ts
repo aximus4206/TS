@@ -140,55 +140,53 @@
 //     return memoFac;
 // }
 
-class Figure {
-    square() {
-    }
-    perimeter() {
-    }
+abstract class Figure {
+    abstract square(): number;
+    abstract perimeter(): number;
 }
 
 class Rectangle extends Figure {
-    height;
-    width;
+    private height;
+    private width;
     constructor(height: number, width: number) {
         super();
         this.height = height;
         this.width = width;
     }
-    square() {
+    public square() {
         return this.width * this.height;
     }
-    perimeter() {
+    public perimeter() {
         return (this.width * 2) + (this.height * 2);
     }
 }
 class Triangle extends Figure {
-    a;
-    b;
-    c;
+    private a;
+    private b;
+    private c;
     constructor(a: number, b: number, c: number) {
         super();
         this.a = a;
         this.b = b;
         this.c = c;
     }
-    square() {
+    public square() {
         return 1 / 2 * this.a * this.b * Math.sin((this.c * Math.PI) / 180);
     }
-    perimeter() {
+    public perimeter() {
         return this.a + this.b + this.c;
     }
 }
 class Circle extends Figure {
-    radius;
+    private radius;
     constructor(radius: number) {
         super();
         this.radius = radius;
     }
-    square() {
+    public square() {
         return Math.PI * Math.pow(this.radius, 2);
     }
-    perimeter() {
+    public perimeter() {
         return Math.PI * 2 * this.radius;
     }
 }
