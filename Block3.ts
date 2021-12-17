@@ -1,6 +1,9 @@
+interface NodeInterface {
+    getPropValue: () => number;
+}
 
 class Nodes<T> {
-    value: T | null;
+    value: NodeInterface | null;
     left: Nodes<T> | null;
     right: Nodes<T> | null;
 
@@ -10,7 +13,7 @@ class Nodes<T> {
         this.right = null;
     }
 
-    insert(value: T, node?: Nodes<T>): boolean {
+    insert(value: NodeInterface, node?: Nodes<T>): boolean {
         let self: Nodes<T> = node ?? this;
 
         if (self.value === null) {
@@ -18,14 +21,14 @@ class Nodes<T> {
             return true;
         }
 
-        if (self.value > value) {
+        if (self.value.getPropValue() > value.getPropValue()) {
             if (self.right === null) {
                 self.right = new Nodes<T>();
             }
             return this.insert(value, self.right);
         }
 
-        if (self.value < value) {
+        if (self.value.getPropValue() < value.getPropValue()) {
             if (self.left === null) {
                 self.left = new Nodes<T>();
             }
@@ -35,7 +38,7 @@ class Nodes<T> {
         return false;
     }
 
-    search(value: T, node?: Nodes<T>): Nodes<T> | null {
+    search(value: NodeInterface, node?: Nodes<T>): Nodes<T> | null {
         let self: Nodes<T> = node ?? this;
 
         if (self.value === null) {
@@ -46,11 +49,11 @@ class Nodes<T> {
             return self;
         }
 
-        if (self.value > value && self.right !== null) {
+        if (self.value.getPropValue() > value.getPropValue() && self.right !== null) {
             return this.search(value, self.right);
         }
 
-        if (self.value < value && self.left !== null) {
+        if (self.value.getPropValue() < value.getPropValue() && self.left !== null) {
             return this.search(value, self.left);
         }
 
@@ -66,15 +69,15 @@ class Nodes<T> {
 
     }
 
-    remove(value: T, node?: Nodes<T>): Nodes<T> | null {
+    remove(value: NodeInterface, node?: Nodes<T>): Nodes<T> | null {
         let self: Nodes<T> = node ?? this;
 
         if (self.value === null) {
             return null;
-        } else if (self.value < value && self.left !== null) {
+        } else if (self.value.getPropValue() < value.getPropValue() && self.left !== null) {
             self.left = this.remove(value, self.left);
             return self;
-        } else if (self.value > value && self.right !== null) {
+        } else if (self.value.getPropValue() > value.getPropValue() && self.right !== null) {
             self.right = this.remove(value, self.right);
             return self;
         } else if (self.left === null && self.right === null) {

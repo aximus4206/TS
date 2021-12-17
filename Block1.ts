@@ -140,48 +140,58 @@
 //     return memoFac;
 // }
 
-// class Rectangle {
-//     height;
-//     width;
-//     constructor(height: number, width: number) {
-//         this.height = height;
-//         this.width = width;
-//     }
-//     square() {
-//         return this.width * this.height;
-//     }
-//     perimeter() {
-//         return (this.width * 2) + (this.height * 2);
-//     }
-// }
-// class Triangle {
-//     a;
-//     b;
-//     c;
-//     constructor(a: number, b: number, c: number) {
-//         this.a = a;
-//         this.b = b;
-//         this.c = c;
-//     }
-//     square() {
-//         return 1 / 2 * this.a * this.b * Math.sin((this.c * Math.PI) / 180);
-//     }
-//     perimeter() {
-//         return this.a + this.b + this.c;
-//     }
-// }
-// class Circle {
-//     radius;
-//     constructor(radius: number) {
-//         this.radius = radius;
-//     }
-//     square() {
-//         return Math.PI * Math.pow(this.radius, 2);
-//     }
-//     perimeter() {
-//         return Math.PI * 2 * this.radius;
-//     }
-// }
+class Figure {
+    square() {
+    }
+    perimeter() {
+    }
+}
+
+class Rectangle extends Figure {
+    height;
+    width;
+    constructor(height: number, width: number) {
+        super();
+        this.height = height;
+        this.width = width;
+    }
+    square() {
+        return this.width * this.height;
+    }
+    perimeter() {
+        return (this.width * 2) + (this.height * 2);
+    }
+}
+class Triangle extends Figure {
+    a;
+    b;
+    c;
+    constructor(a: number, b: number, c: number) {
+        super();
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+    square() {
+        return 1 / 2 * this.a * this.b * Math.sin((this.c * Math.PI) / 180);
+    }
+    perimeter() {
+        return this.a + this.b + this.c;
+    }
+}
+class Circle extends Figure {
+    radius;
+    constructor(radius: number) {
+        super();
+        this.radius = radius;
+    }
+    square() {
+        return Math.PI * Math.pow(this.radius, 2);
+    }
+    perimeter() {
+        return Math.PI * 2 * this.radius;
+    }
+}
 
 
 // let arr = [2, -3, 3, 1, 5, 0, 4, 8, 9, -9, -7, -5, 6, 12, 14, 2, 7];
